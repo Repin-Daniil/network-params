@@ -3,61 +3,113 @@
 
 namespace gui {
 
+Window::Window(const std::string& title)
+    : window_({ApplicationConstants::kWidth, ApplicationConstants::kHeight}, title) {
+  Init();
+}
+
+void Window::Init() {
+  InitWindow();
+  InitLabels();
+  InitInputFields();
+  InitResultLabels();
+  InitButtons();
+}
+
 void Window::InitWindow() {
   window_.setFramerateLimit(144);
 
-  if (!font_.loadFromFile(ApplicationConstants::PATH_TO_FONT.data())) {
+  if (!font_.loadFromFile(ApplicationConstants::kPathToFont.data())) {
     throw std::runtime_error("Failed to load font!");
   }
 }
 
-void Window::InitTimeSliceShape() {
-  time_slice_shape_.setSize(sf::Vector2f(25, 25));
-  time_slice_shape_.setOutlineThickness(1);
-  time_slice_shape_.setOutlineColor(sf::Color::Black);
-}
-
 void Window::InitLabels() {
-  add_process_.setFont(font_);
-  add_process_.setCharacterSize(25);
-  add_process_.setFillColor(sf::Color::Black);
-  //  add_process_.setString(EnglishLabels::ADD_PROCESS.data());
-  add_process_.setPosition(1400, 60);
-  add_process_.setOutlineColor(sf::Color::White);
-  add_process_.setOutlineThickness(2);
+  results_zone_label_.setFont(font_);
+  results_zone_label_.setCharacterSize(30);
+  results_zone_label_.setFillColor(sf::Color::Magenta);
+  results_zone_label_.setString(Labels::kResults.data());
 
-  reset_.setFont(font_);
-  reset_.setCharacterSize(25);
-  reset_.setFillColor(sf::Color::Black);
-  //  reset_.setString(EnglishLabels::RESET.data());
-  reset_.setPosition(1400, 120);
-  reset_.setOutlineColor(sf::Color::White);
-  reset_.setOutlineThickness(2);
+  input_zone_label_.setFont(font_);
+  input_zone_label_.setCharacterSize(30);
+  input_zone_label_.setFillColor(sf::Color::Magenta);
+  input_zone_label_.setString(Labels::kInput.data());
 
-  average_timeout_label_.setFont(font_);
-  average_timeout_label_.setCharacterSize(25);
-  average_timeout_label_.setFillColor(sf::Color::White);
-  //  average_timeout_label_.setString(EnglishLabels::MIDDLE_TIMEOUT.data());
-  average_timeout_label_.setPosition(1250, 760);
+  ip_range_label_.setFont(font_);
+  ip_range_label_.setCharacterSize(25);
+  ip_range_label_.setFillColor(sf::Color::Cyan);
+  ip_range_label_.setString(Labels::kRange.data());
 
-  average_runtime_label_.setFont(font_);
-  average_runtime_label_.setCharacterSize(25);
-  average_runtime_label_.setFillColor(sf::Color::White);
-  //  average_runtime_label_.setString(EnglishLabels::MIDDLE_RUNTIME.data());
-  average_runtime_label_.setPosition(1250, 820);
-
-  input_text_.setFont(font_);
-  input_text_.setCharacterSize(25);
-  input_text_.setFillColor(sf::Color::White);
-  input_text_.setPosition(1100, 60);
+  network_parameters_label_.setFont(font_);
+  network_parameters_label_.setCharacterSize(25);
+  network_parameters_label_.setFillColor(sf::Color::Cyan);
+  network_parameters_label_.setString(Labels::kNetworkParameters.data());
 }
 
 void Window::InitInputFields() {
-  input_field_.setSize(sf::Vector2f(250, 30));
-  input_field_.setFillColor(sf::Color::Black);
-  input_field_.setOutlineThickness(2);
-  input_field_.setOutlineColor(sf::Color::White);
-  input_field_.setPosition(1100, 60);
+  start_ip_range_label_.setFont(font_);
+  start_ip_range_label_.setCharacterSize(25);
+  start_ip_range_label_.setFillColor(sf::Color::White);
+  start_ip_range_label_.setString(Labels::kStart.data());
+
+  finish_ip_range_label_.setFont(font_);
+  finish_ip_range_label_.setCharacterSize(25);
+  finish_ip_range_label_.setFillColor(sf::Color::White);
+  finish_ip_range_label_.setString(Labels::kFinish.data());
+
+  start_input_field_.setFillColor(sf::Color::Black);
+  start_input_field_.setOutlineThickness(2);
+  start_input_field_.setOutlineColor(sf::Color::White);
+
+  finish_input_field_.setFillColor(sf::Color::Black);
+  finish_input_field_.setOutlineThickness(2);
+  finish_input_field_.setOutlineColor(sf::Color::White);
+
+  start_input_text_.setFont(font_);
+  start_input_text_.setCharacterSize(25);
+  start_input_text_.setFillColor(sf::Color::White);
+
+  finish_input_text_.setFont(font_);
+  finish_input_text_.setCharacterSize(25);
+  finish_input_text_.setFillColor(sf::Color::White);
+}
+
+void Window::InitResultLabels() {
+  network_address_result_label_.setFont(font_);
+  network_address_result_label_.setCharacterSize(25);
+  network_address_result_label_.setFillColor(sf::Color::White);
+  network_address_result_label_.setString(Labels::kNetworkAddress.data());
+
+  broadcast_address_result_label_.setFont(font_);
+  broadcast_address_result_label_.setCharacterSize(25);
+  broadcast_address_result_label_.setFillColor(sf::Color::White);
+  broadcast_address_result_label_.setString(Labels::kBroadcastAddress.data());
+
+  mac_address_result_label_.setFont(font_);
+  mac_address_result_label_.setCharacterSize(25);
+  mac_address_result_label_.setFillColor(sf::Color::White);
+  mac_address_result_label_.setString(Labels::kMacAddress.data());
+
+  subnet_mask_result_label_.setFont(font_);
+  subnet_mask_result_label_.setCharacterSize(25);
+  subnet_mask_result_label_.setFillColor(sf::Color::White);
+  subnet_mask_result_label_.setString(Labels::kSubnetMask.data());
+}
+
+void Window::InitButtons() {
+  calculate_button_label_.setFont(font_);
+  calculate_button_label_.setCharacterSize(35);
+  calculate_button_label_.setFillColor(sf::Color::Black);
+  calculate_button_label_.setString(Labels::kCalculate.data());
+  calculate_button_label_.setOutlineColor(sf::Color::White);
+  calculate_button_label_.setOutlineThickness(3);
+
+  reset_button_label_.setFont(font_);
+  reset_button_label_.setCharacterSize(35);
+  reset_button_label_.setFillColor(sf::Color::Black);
+  reset_button_label_.setString(Labels::kReset.data());
+  reset_button_label_.setOutlineColor(sf::Color::White);
+  reset_button_label_.setOutlineThickness(3);
 }
 
 bool Window::IsOpen() const noexcept {
@@ -66,17 +118,17 @@ bool Window::IsOpen() const noexcept {
 
 UserChoice Window::Tick() {
   sf::Event event{};
+  Update();
 
-  if (window_.pollEvent(event)) {
+  if (window_.waitEvent(event)) {
     if (event.type == sf::Event::Closed) {
       window_.close();
     } else if (event.type == sf::Event::Resized) {
       ResizeWindow(event);
     } else if (IsBackspacePressed(event)) {
-      std::string data_str = input_text_.getString();
-      input_text_.setString(data_str.empty() ? data_str : data_str.substr(0, data_str.size() - 1));
-    } else if (IsDigitInput(event)) {
-      input_text_.setString(input_text_.getString() + static_cast<char>(event.text.unicode));
+      RemoveSymbol(event);
+    } else if (IsDigitInput(event) || IsDotEntered(event)) {
+      AddSymbol(event);
     } else if (IsMouseClicked(event)) {
       return HandleMouseButtonPressed(sf::Mouse::getPosition(window_));
     }
@@ -85,65 +137,140 @@ UserChoice Window::Tick() {
   return {NOTHING};
 }
 
+void Window::RemoveSymbol(const sf::Event& event) {
+  if (focus_on_start) {
+    std::string data_str = start_input_text_.getString();
+    start_input_text_.setString(data_str.empty() ? data_str : data_str.substr(0, data_str.size() - 1));
+  } else if (focus_on_finish) {
+    std::string data_str = finish_input_text_.getString();
+    finish_input_text_.setString(data_str.empty() ? data_str : data_str.substr(0, data_str.size() - 1));
+  }
+}
+
+void Window::AddSymbol(const sf::Event& event) {
+  if (focus_on_start) {
+    start_input_text_.setString(start_input_text_.getString() + static_cast<char>(event.text.unicode));
+  } else if (focus_on_finish) {
+    finish_input_text_.setString(finish_input_text_.getString() + static_cast<char>(event.text.unicode));
+  }
+}
+
 UserChoice Window::HandleMouseButtonPressed(sf::Vector2i cursor_position) {
-  if (add_process_.getGlobalBounds().contains(static_cast<float>(cursor_position.x),
-                                              static_cast<float>(cursor_position.y))) {
-    int time = std::stoi(input_text_.getString().toAnsiString());
+  if (calculate_button_label_.getGlobalBounds().contains(static_cast<float>(cursor_position.x),
+                                                         static_cast<float>(cursor_position.y))) {
+    std::string start = start_input_text_.getString().toAnsiString();
+    std::string finish = finish_input_text_.getString().toAnsiString();
 
-    if (time < 0) {
-      return {NOTHING};
-    }
+    calc_button_pressed_ = true;
+    focus_on_start = false;
+    focus_on_finish = false;
+    // TODO Проверить не пустые ли они
+    return {CALCULATE, {start, finish}};
+  } else if (reset_button_label_.getGlobalBounds().contains(static_cast<float>(cursor_position.x),
+                                                            static_cast<float>(cursor_position.y))) {
+    reset_button_pressed_ = true;
+    focus_on_start = false;
+    focus_on_finish = false;
 
-    return {ADD_PROCESS, time};
-  } else if (reset_.getGlobalBounds().contains(static_cast<float>(cursor_position.x),
-                                               static_cast<float>(cursor_position.y))) {
     return {RESET};
+  } else if (start_input_field_.getGlobalBounds().contains(static_cast<float>(cursor_position.x),
+                                                           static_cast<float>(cursor_position.y))) {
+    focus_on_start = true;
+    focus_on_finish = false;
+  } else if (finish_input_field_.getGlobalBounds().contains(static_cast<float>(cursor_position.x),
+                                                            static_cast<float>(cursor_position.y))) {
+    focus_on_start = false;
+    focus_on_finish = true;
   }
 
   return {NOTHING};
 }
 
-void Window::Update(const std::vector<std::vector<bool>>& table) {
-  Clear();
+void Window::Draw() {
+  results_zone_label_.setPosition((window_.getSize().x - window_.getSize().x / 3) / 64 + window_.getSize().x / 3, 20);
+  input_zone_label_.setPosition(window_.getSize().x / 64, 20);
+  ip_range_label_.setPosition(window_.getSize().x / 12, 60);
+  network_parameters_label_.setPosition((2 * window_.getSize().x / 3) / 2 + window_.getSize().x / 3, 60);
 
-  window_.draw(add_process_border_);
-  window_.draw(reset_border_);
-  window_.draw(add_process_);
-  window_.draw(reset_);
-  window_.draw(average_timeout_label_);
-  window_.draw(average_runtime_label_);
-  window_.draw(input_field_);
-  window_.draw(input_text_);
+  start_ip_range_label_.setPosition(window_.getSize().x / 64, 120);
+  finish_ip_range_label_.setPosition(window_.getSize().x / 64, 180);
+  start_input_field_.setPosition(window_.getSize().x / 64 + 100, 120);
+  start_input_field_.setSize(sf::Vector2f(window_.getSize().x / 3 - 150, 30));
+  finish_input_field_.setPosition(window_.getSize().x / 64 + 100, 180);
+  finish_input_field_.setSize(sf::Vector2f(window_.getSize().x / 3 - 150, 30));
+  start_input_text_.setPosition(window_.getSize().x / 64 + 100, 120);
+  finish_input_text_.setPosition(window_.getSize().x / 64 + 100, 180);
 
-  //  average_timeout_label_.setString(
-  //      EnglishLabels::MIDDLE_TIMEOUT.data() + std::to_string(static_cast<double>(current_timeout_)));
-  //  average_runtime_label_.setString(
-  //      EnglishLabels::MIDDLE_RUNTIME.data() + std::to_string(static_cast<double>(current_runtime_)));
+  calculate_button_label_.setPosition((window_.getSize().x / 3) / 12, window_.getSize().y - 70);
+  reset_button_label_.setPosition((window_.getSize().x / 3) - (window_.getSize().x / 8), window_.getSize().y - 70);
 
-  DrawTable(table);
+  if (calc_button_pressed_) {
+    calculate_button_label_.setOutlineColor(sf::Color::Red);
+    calc_button_pressed_ = false;
+    window_.draw(calculate_button_label_);
+  } else {
+    calculate_button_label_.setOutlineColor(sf::Color::White);
+  }
 
-  window_.display();
+  if (reset_button_pressed_) {
+    reset_button_label_.setOutlineColor(sf::Color::Red);
+    reset_button_pressed_ = false;
+    window_.draw(reset_button_label_);
+  } else {
+    reset_button_label_.setOutlineColor(sf::Color::White);
+  }
+
+  network_address_result_label_.setPosition((window_.getSize().x / 3) + 20, 120);
+  broadcast_address_result_label_.setPosition((window_.getSize().x / 3) + 20, 180);
+  subnet_mask_result_label_.setPosition((window_.getSize().x / 3) + 20, 240);
+  mac_address_result_label_.setPosition((window_.getSize().x / 3) + 20, 300);
+
+  window_.draw(results_zone_label_);
+  window_.draw(input_zone_label_);
+  window_.draw(ip_range_label_);
+  window_.draw(network_parameters_label_);
+
+  window_.draw(start_ip_range_label_);
+  window_.draw(finish_ip_range_label_);
+  window_.draw(start_input_field_);
+  window_.draw(finish_input_field_);
+  window_.draw(start_input_text_);
+  window_.draw(finish_input_text_);
+
+  window_.draw(calculate_button_label_);
+  window_.draw(reset_button_label_);
+
+  window_.draw(network_address_result_label_);
+  window_.draw(broadcast_address_result_label_);
+  window_.draw(subnet_mask_result_label_);
+  window_.draw(mac_address_result_label_);
+
+  sf::Vertex vertical_1[] = {sf::Vertex(sf::Vector2f(window_.getSize().x / 3, 0)),
+                             sf::Vertex(sf::Vector2f(window_.getSize().x / 3, window_.getSize().y))};
+
+  sf::Vertex horizontal_1[] = {sf::Vertex(sf::Vector2f(0, window_.getSize().y - 110)),
+                               sf::Vertex(sf::Vector2f(window_.getSize().x / 3, window_.getSize().y - 110))};
+
+  sf::Vertex horizontal_2[] = {sf::Vertex(sf::Vector2f(0, 110)), sf::Vertex(sf::Vector2f(window_.getSize().x, 110))};
+
+  window_.draw(vertical_1, 4, sf::Lines);
+  window_.draw(horizontal_1, 4, sf::Lines);
+  window_.draw(horizontal_2, 4, sf::Lines);
 }
 
-void Window::DrawTable(const std::vector<std::vector<bool>>& table) {
-  //  int x = ApplicationConstants::MARGIN_LEFT;
-  //  int y = ApplicationConstants::MARGIN_TOP;
+void Window::UpdateLabels() {
+  network_address_result_label_.setString(std::string(Labels::kNetworkAddress.data()) + network_address_);
+  broadcast_address_result_label_.setString(std::string(Labels::kBroadcastAddress.data()) + broadcast_address_);
+  subnet_mask_result_label_.setString(std::string(Labels::kSubnetMask.data()) + subnet_mask_);
+  mac_address_result_label_.setString(std::string(Labels::kMacAddress.data()) + mac_address_);
+}
 
-  for (auto& process : table) {
-    for (auto time_slice_status : process) {
-      auto color = (time_slice_status ? sf::Color::Green : sf::Color::Red);
+void Window::Update() {
+  Clear();
+  Draw();
+  UpdateLabels();
 
-      time_slice_shape_.setFillColor(color);
-      //      time_slice_shape_.setPosition(static_cast<float>(x), static_cast<float>(y));
-
-      //      x += ApplicationConstants::CELL_SIZE;
-
-      window_.draw(time_slice_shape_);
-    }
-
-    //    x = ApplicationConstants::MARGIN_LEFT;
-    //    y += ApplicationConstants::CELL_SIZE;
-  }
+  window_.display();
 }
 
 void Window::ResizeWindow(sf::Event event) {
@@ -151,16 +278,17 @@ void Window::ResizeWindow(sf::Event event) {
                    sf::Vector2f(event.size.width, event.size.height)});
 }
 
+void Window::Reset() {
+  start_input_text_.setString("");
+  finish_input_text_.setString("");
+  network_address_.clear();
+  broadcast_address_.clear();
+  mac_address_.clear();
+  subnet_mask_.clear();
+}
+
 void Window::Clear() {
   window_.clear(sf::Color::Black);
-}
-
-void Window::SetRuntime(double runtime) {
-  current_runtime_ = runtime;
-}
-
-void Window::SetTimeout(double timeout) {
-  current_timeout_ = timeout;
 }
 
 bool Window::IsDigitInput(const sf::Event& event) {
@@ -172,12 +300,27 @@ bool Window::IsDigitInput(const sf::Event& event) {
           std::isdigit(static_cast<char>(event.text.unicode)));
 }
 
+bool Window::IsDotEntered(const sf::Event& event) {
+  int ascii_scope = 128;
+  int dot_code = 46;
+
+  return ((event.type == sf::Event::TextEntered) && (event.text.unicode < ascii_scope && event.text.unicode == 46));
+}
+
 bool Window::IsBackspacePressed(const sf::Event& event) {
   return (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Backspace);
 }
 
 bool Window::IsMouseClicked(const sf::Event& event) {
   return (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left);
+}
+
+void Window::SetResult(std::string network_address, std::string broadcast_address, std::string mac_address,
+                       std::string subnet_mask) {
+  network_address_ = network_address;
+  broadcast_address_ = broadcast_address;
+  mac_address_ = mac_address;
+  subnet_mask_ = subnet_mask;
 }
 
 }  // namespace gui

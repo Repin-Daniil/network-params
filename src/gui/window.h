@@ -2,6 +2,7 @@
 
 #include <optional>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "SFML/Graphics/Font.hpp"
@@ -10,73 +11,95 @@
 #include "SFML/Graphics/Text.hpp"
 #include "SFML/Window/Event.hpp"
 
-#include "../constants_storage.h"
+#include "constants_storage.h"
 
 namespace gui {
 
-enum Event { NOTHING, ADD_PROCESS, RESET };
+enum Event { NOTHING, CALCULATE, RESET };
 
 struct UserChoice {
   Event type = NOTHING;
-  int process_time = 0;
+  std::pair<std::string, std::string> ip_range;
 };
 
 class Window {
  public:
-  explicit Window(const std::string& title)
-      : window_({ApplicationConstants::WIDTH, ApplicationConstants::HEIGHT}, title) {
-    InitWindow();
-    InitInputFields();
-    InitLabels();
-    InitTimeSliceShape();
-  }
+  explicit Window(const std::string& title);
 
   // Methods
+  void Init();
   UserChoice Tick();
-  void Update(const std::vector<std::vector<bool>>& table);
+  void Reset();
 
   // Setters
-  void SetRuntime(double runtime);
-  void SetTimeout(double timeout);
+  void SetResult(std::string network_address, std::string broadcast_address, std::string mac_address,
+                 std::string subnet_mask);
 
   // Predicates
   bool IsOpen() const noexcept;
 
  private:
   UserChoice HandleMouseButtonPressed(sf::Vector2i cursor_position);
+  void Update();
   void ResizeWindow(sf::Event event);
+  void Draw();
   void Clear();
-  void DrawTable(const std::vector<std::vector<bool>>& table);
+  void UpdateLabels();
 
   // Init
   void InitWindow();
-  void InitInputFields();
   void InitLabels();
-  void InitTimeSliceShape();
+  void InitInputFields();
+  void InitResultLabels();
+  void InitButtons();
 
   // Predicates
   bool IsMouseClicked(const sf::Event& event);
   bool IsBackspacePressed(const sf::Event& event);
   bool IsDigitInput(const sf::Event& event);
+  bool IsDotEntered(const sf::Event& event);
+
+  // Typing
+  void AddSymbol(const sf::Event& event);
+  void RemoveSymbol(const sf::Event& event);
 
  private:
-  double current_timeout_ = 0.0;
-  double current_runtime_ = 0.0;
+  std::string network_address_;
+  std::string broadcast_address_;
+  std::string mac_address_;
+  std::string subnet_mask_;
 
-  // GUI
+  /* GUI */
   sf::RenderWindow window_;
   sf::Font font_;
 
-  sf::RectangleShape input_field_;
-  sf::RectangleShape time_slice_shape_;
-  sf::RectangleShape add_process_border_;
-  sf::RectangleShape reset_border_;
+  // Labels
+  sf::Text results_zone_label_;
+  sf::Text input_zone_label_;
+  sf::Text ip_range_label_;
+  sf::Text network_parameters_label_;
 
-  sf::Text add_process_;
-  sf::Text reset_;
-  sf::Text average_timeout_label_;
-  sf::Text average_runtime_label_;
-  sf::Text input_text_;
+  // Input fields
+  sf::Text start_ip_range_label_;
+  sf::Text finish_ip_range_label_;
+  sf::Text start_input_text_;
+  sf::Text finish_input_text_;
+  sf::RectangleShape start_input_field_;
+  sf::RectangleShape finish_input_field_;
+  bool focus_on_start = true;
+  bool focus_on_finish = false;
+
+  // Results Labels
+  sf::Text network_address_result_label_;
+  sf::Text broadcast_address_result_label_;
+  sf::Text mac_address_result_label_;
+  sf::Text subnet_mask_result_label_;
+
+  // Buttons
+  sf::Text calculate_button_label_;
+  sf::Text reset_button_label_;
+  bool calc_button_pressed_ = false;
+  bool reset_button_pressed_ = false;
 };
 
 }  // namespace gui

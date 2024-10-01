@@ -14,9 +14,7 @@ namespace app {
 
 class Application {
  public:
-  Application() : window_("Лабы по сетям") {
-  }
-
+  Application();
   void Start();
 
  private:
@@ -24,7 +22,7 @@ class Application {
 
  private:
   gui::Window window_;
-  std::unique_ptr<domain::Network> network_;
+  domain::Network network_;
 };
 
 }  // namespace app
