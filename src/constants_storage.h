@@ -12,5 +12,5 @@ struct ApplicationConstants {
 
   // gui
   constexpr static int WIDTH = 1600;
-  constexpr static int HEIGHT = 900;};
-
+  constexpr static int HEIGHT = 900;
+};

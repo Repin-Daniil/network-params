@@ -1,11 +1,11 @@
 #pragma once
 
+#include <iostream>
 #include <memory>
 #include <queue>
 #include <string>
 #include <utility>
 #include <vector>
-#include <iostream>
 
 #include "domain/network.h"
 #include "gui/window.h"

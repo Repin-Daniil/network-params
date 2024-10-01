@@ -1,5 +1,5 @@
-#include <variant>
 #include "window.h"
+#include <variant>
 
 namespace gui {
 
@@ -21,7 +21,7 @@ void Window::InitLabels() {
   add_process_.setFont(font_);
   add_process_.setCharacterSize(25);
   add_process_.setFillColor(sf::Color::Black);
-//  add_process_.setString(EnglishLabels::ADD_PROCESS.data());
+  //  add_process_.setString(EnglishLabels::ADD_PROCESS.data());
   add_process_.setPosition(1400, 60);
   add_process_.setOutlineColor(sf::Color::White);
   add_process_.setOutlineThickness(2);
@@ -29,7 +29,7 @@ void Window::InitLabels() {
   reset_.setFont(font_);
   reset_.setCharacterSize(25);
   reset_.setFillColor(sf::Color::Black);
-//  reset_.setString(EnglishLabels::RESET.data());
+  //  reset_.setString(EnglishLabels::RESET.data());
   reset_.setPosition(1400, 120);
   reset_.setOutlineColor(sf::Color::White);
   reset_.setOutlineThickness(2);
@@ -37,13 +37,13 @@ void Window::InitLabels() {
   average_timeout_label_.setFont(font_);
   average_timeout_label_.setCharacterSize(25);
   average_timeout_label_.setFillColor(sf::Color::White);
-//  average_timeout_label_.setString(EnglishLabels::MIDDLE_TIMEOUT.data());
+  //  average_timeout_label_.setString(EnglishLabels::MIDDLE_TIMEOUT.data());
   average_timeout_label_.setPosition(1250, 760);
 
   average_runtime_label_.setFont(font_);
   average_runtime_label_.setCharacterSize(25);
   average_runtime_label_.setFillColor(sf::Color::White);
-//  average_runtime_label_.setString(EnglishLabels::MIDDLE_RUNTIME.data());
+  //  average_runtime_label_.setString(EnglishLabels::MIDDLE_RUNTIME.data());
   average_runtime_label_.setPosition(1250, 820);
 
   input_text_.setFont(font_);
@@ -103,7 +103,7 @@ UserChoice Window::HandleMouseButtonPressed(sf::Vector2i cursor_position) {
   return {NOTHING};
 }
 
-void Window::Update(const std::vector<std::vector<bool>> &table) {
+void Window::Update(const std::vector<std::vector<bool>>& table) {
   Clear();
 
   window_.draw(add_process_border_);
@@ -115,34 +115,34 @@ void Window::Update(const std::vector<std::vector<bool>> &table) {
   window_.draw(input_field_);
   window_.draw(input_text_);
 
-//  average_timeout_label_.setString(
-//      EnglishLabels::MIDDLE_TIMEOUT.data() + std::to_string(static_cast<double>(current_timeout_)));
-//  average_runtime_label_.setString(
-//      EnglishLabels::MIDDLE_RUNTIME.data() + std::to_string(static_cast<double>(current_runtime_)));
+  //  average_timeout_label_.setString(
+  //      EnglishLabels::MIDDLE_TIMEOUT.data() + std::to_string(static_cast<double>(current_timeout_)));
+  //  average_runtime_label_.setString(
+  //      EnglishLabels::MIDDLE_RUNTIME.data() + std::to_string(static_cast<double>(current_runtime_)));
 
   DrawTable(table);
 
   window_.display();
 }
 
-void Window::DrawTable(const std::vector<std::vector<bool>> &table) {
-//  int x = ApplicationConstants::MARGIN_LEFT;
-//  int y = ApplicationConstants::MARGIN_TOP;
+void Window::DrawTable(const std::vector<std::vector<bool>>& table) {
+  //  int x = ApplicationConstants::MARGIN_LEFT;
+  //  int y = ApplicationConstants::MARGIN_TOP;
 
-  for (auto &process : table) {
+  for (auto& process : table) {
     for (auto time_slice_status : process) {
       auto color = (time_slice_status ? sf::Color::Green : sf::Color::Red);
 
       time_slice_shape_.setFillColor(color);
-//      time_slice_shape_.setPosition(static_cast<float>(x), static_cast<float>(y));
+      //      time_slice_shape_.setPosition(static_cast<float>(x), static_cast<float>(y));
 
-//      x += ApplicationConstants::CELL_SIZE;
+      //      x += ApplicationConstants::CELL_SIZE;
 
       window_.draw(time_slice_shape_);
     }
 
-//    x = ApplicationConstants::MARGIN_LEFT;
-//    y += ApplicationConstants::CELL_SIZE;
+    //    x = ApplicationConstants::MARGIN_LEFT;
+    //    y += ApplicationConstants::CELL_SIZE;
   }
 }
 
@@ -163,20 +163,20 @@ void Window::SetTimeout(double timeout) {
   current_timeout_ = timeout;
 }
 
-bool Window::IsDigitInput(const sf::Event &event) {
+bool Window::IsDigitInput(const sf::Event& event) {
   int backspace_code = 8;
   int ascii_scope = 128;
 
   return ((event.type == sf::Event::TextEntered) &&
-      (event.text.unicode < ascii_scope && event.text.unicode != backspace_code) &&
-      std::isdigit(static_cast<char>(event.text.unicode)));
+          (event.text.unicode < ascii_scope && event.text.unicode != backspace_code) &&
+          std::isdigit(static_cast<char>(event.text.unicode)));
 }
 
-bool Window::IsBackspacePressed(const sf::Event &event) {
+bool Window::IsBackspacePressed(const sf::Event& event) {
   return (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Backspace);
 }
 
-bool Window::IsMouseClicked(const sf::Event &event) {
+bool Window::IsMouseClicked(const sf::Event& event) {
   return (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left);
 }
 

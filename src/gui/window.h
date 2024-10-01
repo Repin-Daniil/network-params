@@ -4,11 +4,11 @@
 #include <string>
 #include <vector>
 
-#include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Graphics/Font.hpp"
+#include "SFML/Graphics/RectangleShape.hpp"
+#include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Graphics/Text.hpp"
 #include "SFML/Window/Event.hpp"
-#include "SFML/Graphics/RectangleShape.hpp"
 
 #include "../constants_storage.h"
 
@@ -23,8 +23,8 @@ struct UserChoice {
 
 class Window {
  public:
-  explicit Window(const std::string &title) : window_({ApplicationConstants::WIDTH, ApplicationConstants::HEIGHT},
-                                                      title) {
+  explicit Window(const std::string& title)
+      : window_({ApplicationConstants::WIDTH, ApplicationConstants::HEIGHT}, title) {
     InitWindow();
     InitInputFields();
     InitLabels();
@@ -33,7 +33,7 @@ class Window {
 
   // Methods
   UserChoice Tick();
-  void Update(const std::vector<std::vector<bool>> &table);
+  void Update(const std::vector<std::vector<bool>>& table);
 
   // Setters
   void SetRuntime(double runtime);
@@ -46,7 +46,7 @@ class Window {
   UserChoice HandleMouseButtonPressed(sf::Vector2i cursor_position);
   void ResizeWindow(sf::Event event);
   void Clear();
-  void DrawTable(const std::vector<std::vector<bool>> &table);
+  void DrawTable(const std::vector<std::vector<bool>>& table);
 
   // Init
   void InitWindow();
@@ -55,9 +55,9 @@ class Window {
   void InitTimeSliceShape();
 
   // Predicates
-  bool IsMouseClicked(const sf::Event &event);
-  bool IsBackspacePressed(const sf::Event &event);
-  bool IsDigitInput(const sf::Event &event);
+  bool IsMouseClicked(const sf::Event& event);
+  bool IsBackspacePressed(const sf::Event& event);
+  bool IsDigitInput(const sf::Event& event);
 
  private:
   double current_timeout_ = 0.0;

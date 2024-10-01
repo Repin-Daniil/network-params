@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <utility>
 
 namespace domain {
 
@@ -24,7 +25,7 @@ struct NetworkParams {
 
 class Network {
  public:
-  Network(IpRange range);
+  explicit Network(IpRange range);
 
   void SetRange(IpRange range);
   NetworkParams GetNetworkParams() const;

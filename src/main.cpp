@@ -5,8 +5,7 @@ int main() {
   try {
     app::Application app;
     app.Start();
-  }
-  catch (const std::exception &ex) {
+  } catch (const std::exception& ex) {
     std::cerr << ex.what() << std::endl;
     return EXIT_FAILURE;
   }
