@@ -3,7 +3,7 @@
 namespace domain {
 
 NetworkSettings Network::GetNetworkSettings(IpRange range) const {
-  return NetworkSettings("network", "broadcast", "mac\n     mac2\nmac3", "subnet");
+  return NetworkSettings({"network", "broadcast", "mac\n     mac2\nmac3", "subnet"});
 }
 
 std::string Network::GetMacAddress() const {
