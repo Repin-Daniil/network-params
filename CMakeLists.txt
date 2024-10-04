@@ -30,7 +30,7 @@ add_executable(Network src/main.cpp
 
 include_directories(src)
 
-target_link_libraries(Network PRIVATE NetworkLib sfml-graphics)
+target_link_libraries(Network PRIVATE NetworkLib sfml-graphics iphlpapi.lib)
 target_compile_features(Network PRIVATE cxx_std_17)
 
 if (WIN32)
