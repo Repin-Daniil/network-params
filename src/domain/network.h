@@ -14,9 +14,7 @@ struct IpRange {
   IP end;
 };
 
-struct NetworkParams {
-  IpRange ip_range;
-
+struct NetworkSettings {
   std::string network_address;
   std::string broadcast_address;
   std::string mac_address;
@@ -25,18 +23,12 @@ struct NetworkParams {
 
 class Network {
  public:
-  explicit Network(IpRange range);
-
-  void SetRange(IpRange range);
-  NetworkParams GetNetworkParams() const;
-
-  std::string GetNetworkAddress() const;
-  std::string GetBroadcastAddress() const;
-  std::string GetMacAddress() const;
-  std::string GetSubnetMask() const;
+  NetworkSettings GetNetworkSettings(IpRange range) const;
 
  private:
-  IP ip_start_;
-  IP ip_finish_;
+  std::string GetNetworkAddress(IpRange range) const;
+  std::string GetBroadcastAddress(IpRange range) const;
+  std::string GetSubnetMask(IpRange range) const;
+  std::string GetMacAddress() const;
 };
 }  // namespace domain

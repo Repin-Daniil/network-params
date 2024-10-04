@@ -2,29 +2,23 @@
 
 namespace domain {
 
-Network::Network(IpRange range) : ip_start_(std::move(range.begin)), ip_finish_(std::move(range.end)) {
-}
-
-NetworkParams Network::GetNetworkParams() const {
-  return NetworkParams();
-}
-
-void Network::SetRange(IpRange range) {
+NetworkSettings Network::GetNetworkSettings(IpRange range) const {
+  return NetworkSettings({"network", "broadcast", "mac\n     mac2\nmac3", "subnet"});
 }
 
 std::string Network::GetMacAddress() const {
   return std::string();
 }
 
-std::string Network::GetSubnetMask() const {
+std::string Network::GetSubnetMask(IpRange range) const {
   return std::string();
 }
 
-std::string Network::GetBroadcastAddress() const {
+std::string Network::GetBroadcastAddress(IpRange range) const {
   return std::string();
 }
 
-std::string Network::GetNetworkAddress() const {
+std::string Network::GetNetworkAddress(IpRange range) const {
   return std::string();
 }
 
