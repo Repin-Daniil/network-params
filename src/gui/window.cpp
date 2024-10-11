@@ -30,6 +30,10 @@ void Window::InitLabels() {
   results_zone_label_.setFillColor(sf::Color::Magenta);
   results_zone_label_.setString(Labels::kResults.data());
 
+  error_label_.setFont(font_);
+  error_label_.setCharacterSize(40);
+  error_label_.setFillColor(sf::Color::Red);
+
   input_zone_label_.setFont(font_);
   input_zone_label_.setCharacterSize(30);
   input_zone_label_.setFillColor(sf::Color::Magenta);
@@ -164,7 +168,11 @@ UserChoice Window::HandleMouseButtonPressed(sf::Vector2i cursor_position) {
     calc_button_pressed_ = true;
     focus_on_start = false;
     focus_on_finish = false;
-    // TODO Проверить не пустые ли они
+
+    if (start.empty() || finish.empty()) {
+      return {NOTHING};
+    }
+
     return {CALCULATE, {start, finish}};
   } else if (reset_button_label_.getGlobalBounds().contains(static_cast<float>(cursor_position.x),
                                                             static_cast<float>(cursor_position.y))) {
@@ -188,6 +196,8 @@ UserChoice Window::HandleMouseButtonPressed(sf::Vector2i cursor_position) {
 
 void Window::Draw() {
   results_zone_label_.setPosition((window_.getSize().x - window_.getSize().x / 3) / 64 + window_.getSize().x / 3, 20);
+  error_label_.setPosition((window_.getSize().x - window_.getSize().x / 3) / 64 + window_.getSize().x / 3,
+                           window_.getSize().y - 70);
   input_zone_label_.setPosition(window_.getSize().x / 64, 20);
   ip_range_label_.setPosition(window_.getSize().x / 12, 60);
   network_parameters_label_.setPosition((2 * window_.getSize().x / 3) / 2 + window_.getSize().x / 3, 60);
@@ -225,8 +235,12 @@ void Window::Draw() {
   subnet_mask_result_label_.setPosition((window_.getSize().x / 3) + 20, 240);
   mac_address_result_label_.setPosition((window_.getSize().x / 3) + 20, 300);
 
-  window_.draw(results_zone_label_);
+  if (show_error_) {
+    window_.draw(error_label_);
+  }
+
   window_.draw(input_zone_label_);
+  window_.draw(results_zone_label_);
   window_.draw(ip_range_label_);
   window_.draw(network_parameters_label_);
 
@@ -262,7 +276,8 @@ void Window::UpdateLabels() {
   network_address_result_label_.setString(std::string(Labels::kNetworkAddress.data()) + network_address_);
   broadcast_address_result_label_.setString(std::string(Labels::kBroadcastAddress.data()) + broadcast_address_);
   subnet_mask_result_label_.setString(std::string(Labels::kSubnetMask.data()) + subnet_mask_);
-  mac_address_result_label_.setString(std::string(Labels::kMacAddress.data()) + mac_address_);
+  mac_address_result_label_.setString(std::wstring(Labels::kMacAddress.begin(), Labels::kMacAddress.end()) +
+                                      mac_address_);
 }
 
 void Window::Update() {
@@ -274,8 +289,20 @@ void Window::Update() {
 }
 
 void Window::ResizeWindow(sf::Event event) {
-  window_.setView({sf::Vector2f(event.size.width / 2.0, event.size.height / 2.0),
-                   sf::Vector2f(event.size.width, event.size.height)});
+  auto new_width = event.size.width;
+  auto new_height = event.size.height;
+
+  if (new_width < ApplicationConstants::kMinWidth) {
+    new_width = ApplicationConstants::kMinWidth;
+  }
+
+  if (new_height < ApplicationConstants::kMinHeight) {
+    new_height = ApplicationConstants::kMinHeight;
+  }
+
+  window_.setView({sf::Vector2f(new_width / 2.0, new_height / 2.0), sf::Vector2f(new_width, new_height)});
+
+  window_.setSize(sf::Vector2u(new_width, new_height));
 }
 
 void Window::Reset() {
@@ -285,6 +312,8 @@ void Window::Reset() {
   broadcast_address_.clear();
   mac_address_.clear();
   subnet_mask_.clear();
+  show_error_ = false;
+  error_label_.setString("");
 }
 
 void Window::Clear() {
@@ -315,12 +344,22 @@ bool Window::IsMouseClicked(const sf::Event& event) {
   return (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left);
 }
 
-void Window::SetResult(std::string network_address, std::string broadcast_address, std::string mac_address,
+void Window::SetResult(std::string network_address, std::string broadcast_address, std::wstring mac_address,
                        std::string subnet_mask) {
+  show_error_ = false;
   network_address_ = network_address;
   broadcast_address_ = broadcast_address;
   mac_address_ = mac_address;
   subnet_mask_ = subnet_mask;
+}
+
+void Window::ShowError(const std::string& error) {
+  network_address_.clear();
+  broadcast_address_.clear();
+  mac_address_.clear();
+  subnet_mask_.clear();
+  error_label_.setString(error);
+  show_error_ = true;
 }
 
 }  // namespace gui

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <string_view>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 
 using namespace std::literals;
@@ -15,29 +15,31 @@ struct ApplicationConstants {
   // gui
   constexpr static int kWidth = 1600;
   constexpr static int kHeight = 500;
+  constexpr static int kMinWidth = 900;
+  constexpr static int kMinHeight = 500;
 };
-//
-// struct Labels {
-//  Labels() = delete;
-//
-//  // Buttons
-//  constexpr static std::string_view kCalculate = "Calculate"sv;
-//  constexpr static std::string_view kReset = "Reset"sv;
-//
-//  // Labels
-//  constexpr static std::string_view kInput = "Input"sv;
-//  constexpr static std::string_view kResults = "Results"sv;
-//  constexpr static std::string_view kRange = "IP Range"sv;
-//
-//  // Input Labels
-//  constexpr static std::string_view kStart = "Start: "sv;
-//  constexpr static std::string_view kFinish = "Finish: "sv;
-//  constexpr static std::string_view kNetworkParameters = "Network Parameters"sv;
-//  constexpr static std::string_view kNetworkAddress = "Network Address: "sv;
-//  constexpr static std::string_view kBroadcastAddress = "Broadcast Address: "sv;
-//  constexpr static std::string_view kMacAddress = "MAC-address: "sv;
-//  constexpr static std::string_view kSubnetMask= "Subnet mask: "sv;
-//};
+
+struct EnglishLabels {
+  EnglishLabels() = delete;
+
+  // Buttons
+  constexpr static std::string_view kCalculate = "Calculate"sv;
+  constexpr static std::string_view kReset = "Reset"sv;
+
+  // Labels
+  constexpr static std::string_view kInput = "Input"sv;
+  constexpr static std::string_view kResults = "Results"sv;
+  constexpr static std::string_view kRange = "IP Range"sv;
+
+  // Input Labels
+  constexpr static std::string_view kStart = "Start: "sv;
+  constexpr static std::string_view kFinish = "Finish: "sv;
+  constexpr static std::string_view kNetworkParameters = "Network Parameters"sv;
+  constexpr static std::string_view kNetworkAddress = "Network Address: "sv;
+  constexpr static std::string_view kBroadcastAddress = "Broadcast Address: "sv;
+  constexpr static std::string_view kMacAddress = "MAC-address: "sv;
+  constexpr static std::string_view kSubnetMask = "Network mask: "sv;
+};
 
 struct Labels {
   Labels() = delete;
@@ -58,5 +60,5 @@ struct Labels {
   constexpr static std::string_view kNetworkAddress = "Network Address: "sv;
   constexpr static std::string_view kBroadcastAddress = "Broadcast Address: "sv;
   constexpr static std::string_view kMacAddress = "MAC-address: "sv;
-  constexpr static std::string_view kSubnetMask = "Subnet Mask: "sv;
+  constexpr static std::string_view kSubnetMask = "Network Mask: "sv;
 };

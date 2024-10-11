@@ -22,7 +22,7 @@ class Application {
 
  private:
   gui::Window window_;
-  domain::Network network_;
+  network::Network network_;
 };
 
 }  // namespace app

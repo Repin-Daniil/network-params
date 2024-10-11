@@ -45,18 +45,9 @@ install(TARGETS Network)
 
 # TESTS
 # Catch2
-
-
-# CTest
-enable_testing()
-
-#FetchContent_Declare(
-#        Catch2
-#        GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-#        GIT_TAG v3.4.0 # or a later release
-#)
+#include_directories(.)
+#add_executable(NetworkParamsTest tests/Network/domain_tests.cpp catch.hpp)
+#target_link_libraries(NetworkParamsTest NetworkLib)
 #
-#FetchContent_MakeAvailable(Catch2)
-#add_executable(scheduler_tests tests/scheduler_tests.cpp)
-#
-#target_link_libraries(scheduler_tests PRIVATE SchedulerLib Catch2::Catch2WithMain)
+## CTest
+#enable_testing()

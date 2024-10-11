@@ -29,10 +29,11 @@ class Window {
   // Methods
   void Init();
   UserChoice Tick();
+  void ShowError(const std::string& error);
   void Reset();
 
   // Setters
-  void SetResult(std::string network_address, std::string broadcast_address, std::string mac_address,
+  void SetResult(std::string network_address, std::string broadcast_address, std::wstring mac_address,
                  std::string subnet_mask);
 
   // Predicates
@@ -66,8 +67,15 @@ class Window {
  private:
   std::string network_address_;
   std::string broadcast_address_;
-  std::string mac_address_;
   std::string subnet_mask_;
+  std::wstring mac_address_;
+
+  // Flags
+  bool show_error_ = false;
+  bool calc_button_pressed_ = false;
+  bool reset_button_pressed_ = false;
+  bool focus_on_start = true;
+  bool focus_on_finish = false;
 
   /* GUI */
   sf::RenderWindow window_;
@@ -75,6 +83,7 @@ class Window {
 
   // Labels
   sf::Text results_zone_label_;
+  sf::Text error_label_;
   sf::Text input_zone_label_;
   sf::Text ip_range_label_;
   sf::Text network_parameters_label_;
@@ -86,8 +95,6 @@ class Window {
   sf::Text finish_input_text_;
   sf::RectangleShape start_input_field_;
   sf::RectangleShape finish_input_field_;
-  bool focus_on_start = true;
-  bool focus_on_finish = false;
 
   // Results Labels
   sf::Text network_address_result_label_;
@@ -98,8 +105,6 @@ class Window {
   // Buttons
   sf::Text calculate_button_label_;
   sf::Text reset_button_label_;
-  bool calc_button_pressed_ = false;
-  bool reset_button_pressed_ = false;
 };
 
 }  // namespace gui
