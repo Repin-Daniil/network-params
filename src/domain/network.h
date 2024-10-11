@@ -2,6 +2,7 @@
 
 #include <winsock2.h>
 #include <iphlpapi.h>
+#include <iptypes.h>
 #include <array>
 #include <cstdint>
 #include <functional>

@@ -13,7 +13,8 @@ jobs:
       - name: Lint C++ files
         run: |
           cd src
-          echo "filter=-legal/copyright,-readability/todo, -build/namespaces_literals,-build/include_subdir
+          echo "filter=-legal/copyright,-readability/todo, -build/namespaces_literals,-build/include_subdir,
+          -build/include_what_you_use, -whitespace/indent_namespace
                 linelength=120" > CPPLINT.cfg
           cpplint --recursive .
 

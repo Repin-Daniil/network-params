@@ -1,5 +1,4 @@
 #include "application.h"
-#include <sstream>
 
 namespace app {
 
