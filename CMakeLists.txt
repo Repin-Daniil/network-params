@@ -42,12 +42,3 @@ if (WIN32)
 endif ()
 
 install(TARGETS Network)
-
-# TESTS
-# Catch2
-#include_directories(.)
-#add_executable(NetworkParamsTest tests/Network/domain_tests.cpp catch.hpp)
-#target_link_libraries(NetworkParamsTest NetworkLib)
-#
-## CTest
-#enable_testing()
